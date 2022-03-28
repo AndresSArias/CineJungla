@@ -1,0 +1,19 @@
+Para clonar el repo hay que colocar
+GIT clone https://github.com/AndresSArias/CineJungla
+
+Sólicitar la versión más actual en el repositorio.
+GIT pull origin nombreDeLaRama
+
+Saber el estado del Staging (Cambios que se han hecho en el repositorio actual, cambios guarados para el commint o no)
+GIT status
+
+Para agregar esos cambios al Staging(lo que enviará al repositorio en un futuro push creando un commit con ese Staging)
+GIT add “nombreDelArchivoConSu.Tipo”  
+(tipo: txt,pdf,py,etc)  si coloca quiere subir todo en vez de "“nombreDelArchivoConSu.Tipo”" colocar
+
+Para establecer el commit con todos los cambios, agregados o no al Staging
+GIT commit -m “mensaje”
+Donde mensaje será la descripción que aparecerá en el Sprint 2
+
+Subir el commit al repositorio
+GIT push origin nombreDeLaRamaEnLaQueSeTrabajo.
