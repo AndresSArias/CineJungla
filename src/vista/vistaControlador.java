@@ -15,6 +15,7 @@ public class vistaControlador extends JFrame {
 	private Fachada fachada;
 	private ControladorEvento control;
 	private panelInicial panelInicial;
+	private panelAdministrador panelAdministrador;
 
 	
 	
@@ -42,10 +43,13 @@ public class vistaControlador extends JFrame {
 		panelInicial = new panelInicial();
 		this.getContentPane().add(panelInicial);
 		
-	
+		//Creación del panel Administrador
+		panelAdministrador = new panelAdministrador ();
+		this.getContentPane().add(panelAdministrador);
 		
 		//Visibilidad de los paneles
 		panelInicial.setVisible(true);
+		panelAdministrador.setVisible(false);
 
 	}
 	
@@ -63,6 +67,12 @@ public class vistaControlador extends JFrame {
 		//Oyente panelInicial
 		panelInicial.getBotonSalir().addActionListener(getControl());
 		panelInicial.getBotonIniciarSesion().addActionListener(getControl());
+		//Oyentes panelAdminstrador
+		
+		panelAdministrador.getBotonCerrarSesion().addActionListener(getControl());
+		panelAdministrador.getBotonUsuario().addActionListener(getControl());
+		panelAdministrador.getBotonInforme().addActionListener(getControl());
+
 		
 	}
 	
@@ -74,6 +84,9 @@ public class vistaControlador extends JFrame {
 	
 	public panelInicial getPanelInicial () {
 		return panelInicial;
+	}
+	public panelAdministrador getPanelAdministrador () {
+		return panelAdministrador;
 	}
 	
 }

@@ -81,11 +81,11 @@ public class panelInicial extends JPanel{
 	
 	//Gettes para el manejo de componentes visuales interactivos
 	
-	public JTextField getTextoAlias () {
+	public JTextField getTextoCedula () {
 		return textoCedula;
 	}
 	
-	public JPasswordField getTextoContrasena() {
+	public JPasswordField getTextoCodigo() {
 		return textoCodigo;
 	}
 	

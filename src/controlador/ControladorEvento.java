@@ -25,7 +25,16 @@ public class ControladorEvento implements ActionListener{
 	        	 interfaz.getFachada().salir();
 	        }
 	        if(ae.getSource()==(interfaz.getPanelInicial().getBotonIniciarSesion())) {
-	        	 interfaz.getFachada().iniciarSesion();
+	        	 interfaz.getFachada().iniciarSesion(interfaz.getPanelInicial(),interfaz.getPanelAdministrador());
+	        }
+	        if(ae.getSource()==(interfaz.getPanelAdministrador().getBotonCerrarSesion())) {
+	        	 interfaz.getFachada().cerrarSesion(interfaz.getPanelInicial(),interfaz.getPanelAdministrador());
+	        }
+	        if(ae.getSource()==(interfaz.getPanelAdministrador().getBotonUsuario())) {
+	        	interfaz.getFachada().administrarUsuario();
+	        }
+	        if(ae.getSource()==(interfaz.getPanelAdministrador().getBotonInforme())) {
+	        	interfaz.getFachada().administrarInforme();
 	        }
 	       
 		}
