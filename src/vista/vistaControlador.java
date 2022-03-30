@@ -32,7 +32,7 @@ public class vistaControlador extends JFrame {
 	public void iniciarComponentes() {
 		
 		//Inicialización de la ventana principal
-		this.setTitle("Sofi&Migue Entertainment");
+		this.setTitle("Punto Ágil Cine Jungla");
 		this.setBounds(100, 100, 854, 480);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(vistaControlador.class.getResource("/Imagen/Icono.png")));
 		this.getContentPane().setLayout(null);
