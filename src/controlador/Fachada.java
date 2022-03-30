@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 
 import modelo.Usuario;
 import vista.panelAdministrador;
+import vista.panelAdministradorUsuario;
 import vista.panelInicial;
 import vista.vistaControlador;
 
@@ -75,11 +76,32 @@ public class Fachada {
 		
 	}
 	
-	public void administrarUsuario() {
+	public void administrarUsuario (panelAdministrador a, panelAdministradorUsuario b) {
+		
+		a.setVisible(false);
+		b.setVisible(true);
+		
+	}
+	
+	public void cambiarPanel (panelAdministradorUsuario a, panelAdministrador b) {
+		
+		a.setVisible(false);
+		b.setVisible(true);
+		
+	}
+	
+	public void agregarUsuario() {
 		
 		JOptionPane.showMessageDialog(null,"¡En construcción!","Vuelva pronto...",JOptionPane.ERROR_MESSAGE);
 		
 	}
+	
+	public void eliminarUsuario() {
+		
+		JOptionPane.showMessageDialog(null,"¡En construcción!","Vuelva pronto...",JOptionPane.ERROR_MESSAGE);
+		
+	}
+
 	public void administrarInforme() {
 		
 		JOptionPane.showMessageDialog(null,"¡En construcción!","Vuelva pronto...",JOptionPane.ERROR_MESSAGE);
