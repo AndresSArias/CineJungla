@@ -6,6 +6,9 @@ import modelo.Usuario;
 import vista.panelAdministrador;
 import vista.panelAdministradorUsuario;
 import vista.panelInicial;
+import vista.panelUsuario;
+import vista.panelUsuarioCompra;
+import vista.panelUsuarioCompraBoleteria;
 import vista.vistaControlador;
 
 public class Fachada {
@@ -33,7 +36,7 @@ public class Fachada {
 		System.exit(0);
 	}
 	
-	public void iniciarSesion (panelInicial a, panelAdministrador b) {
+	public void iniciarSesion (panelInicial a, panelAdministrador b, panelUsuario c) {
 		
 		// VALIDACION DE LOS DATOS SI COINCIDEN O NO
 		int bandera = 0;
@@ -58,16 +61,29 @@ public class Fachada {
 			b.setVisible(true);
 			
 			} else {
-
+				
+				a.setVisible(false);
+				c.setVisible(true);
+				
+				/*
 				JOptionPane.showMessageDialog(null,"¡En construcción!","Vuelva pronto...",JOptionPane.ERROR_MESSAGE);
 				a.getTextoCedula().setText(null);
 				a.getTextoCodigo().setText(null);
+				*/
 			}
 		
 		}
 	}
 	
 	public void cerrarSesion (panelInicial a, panelAdministrador b) {
+		
+		a.setVisible(true);
+		b.setVisible(false);
+		a.getTextoCedula().setText(null);
+		a.getTextoCodigo().setText(null);
+		
+	}
+	public void cerrarSesion (panelInicial a, panelUsuario b) {
 		
 		a.setVisible(true);
 		b.setVisible(false);
@@ -106,6 +122,31 @@ public class Fachada {
 		
 		JOptionPane.showMessageDialog(null,"¡En construcción!","Vuelva pronto...",JOptionPane.ERROR_MESSAGE);
 		
+	}
+	
+	public void comenzarCompra(panelUsuario a, panelUsuarioCompra b) {
+		
+		a.setVisible(false);
+		b.setVisible(true);
+		
+	}
+	public void regresar (panelUsuario a, panelUsuarioCompra b) {
+		
+		a.setVisible(true);
+		b.setVisible(false);
+		
+	}
+	
+	public void entrarBoleteria (panelUsuarioCompra a , panelUsuarioCompraBoleteria b) {
+		
+		a.setVisible(false);
+		b.setVisible(true);
+		
+	}
+	
+	public void cancelarCompraBoleteria (panelUsuarioCompra a , panelUsuarioCompraBoleteria b) {
+		a.setVisible(true);
+		b.setVisible(false);
 	}
 	
 }

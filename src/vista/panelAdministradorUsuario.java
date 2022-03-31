@@ -42,6 +42,7 @@ public class panelAdministradorUsuario extends JPanel {
 	private JButton botonRegresar;
 	private JTable tablaUsuario;
 	private JScrollPane scrollTablaUsuario;
+	
 
 	public panelAdministradorUsuario () {
 		

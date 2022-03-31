@@ -17,7 +17,9 @@ public class vistaControlador extends JFrame {
 	private panelInicial panelInicial;
 	private panelAdministrador panelAdministrador;
 	private panelAdministradorUsuario panelAdministradorUsuario;
-
+	private panelUsuario panelUsuario;
+	private panelUsuarioCompra panelUsuarioCompra;
+	private panelUsuarioCompraBoleteria panelUsuarioCompraBoleteria;
 	
 	
 	public vistaControlador (Fachada fachada) {
@@ -52,10 +54,26 @@ public class vistaControlador extends JFrame {
 		panelAdministradorUsuario = new panelAdministradorUsuario();
 		this.getContentPane().add(panelAdministradorUsuario);
 		
+		//Creación del panel Usuario
+		panelUsuario = new panelUsuario();
+		this.getContentPane().add(panelUsuario);
+		
+		//Creación del panel Usuario Compra
+		panelUsuarioCompra = new panelUsuarioCompra();
+		this.getContentPane().add(panelUsuarioCompra);
+		
+		//Creación del panel Usuario compra boletas
+		panelUsuarioCompraBoleteria = new panelUsuarioCompraBoleteria();
+		this.getContentPane().add(panelUsuarioCompraBoleteria);
+		
 		//Visibilidad de los paneles
 		panelInicial.setVisible(true);
 		panelAdministrador.setVisible(false);
 		panelAdministradorUsuario.setVisible(false);
+		panelUsuario.setVisible(false);
+		panelUsuarioCompra.setVisible(false);
+		panelUsuarioCompraBoleteria.setVisible(false);
+		
 
 	}
 	
@@ -82,7 +100,19 @@ public class vistaControlador extends JFrame {
 		panelAdministradorUsuario.getBotonEliminarUsuario().addActionListener(getControl());
 		panelAdministradorUsuario.getBotonAgregarUsuario().addActionListener(getControl());
 		panelAdministradorUsuario.getTablaUsuario().addMouseListener(getControl());
-		
+		//Oyentes panelUsuario
+		panelUsuario.getBotonCerrarSesion().addActionListener(getControl());
+		panelUsuario.getBotonConsultar().addActionListener(getControl());
+		panelUsuario.getBotonAgregarCliente().addActionListener(getControl());
+		panelUsuario.getBotonEliminarCliente().addActionListener(getControl());
+		//Oyentes del panel Usuario Compra
+		panelUsuarioCompra.getBotonRegresar().addActionListener(getControl());
+		panelUsuarioCompra.getBotonBoleteria().addActionListener(getControl());
+		panelUsuarioCompra.getBotonCofiteria().addActionListener(getControl());
+		//Oyentes del panel Boleteria
+		panelUsuarioCompraBoleteria.getBotonConsultar().addActionListener(getControl());
+		panelUsuarioCompraBoleteria.getBotonComprar().addActionListener(getControl());
+		panelUsuarioCompraBoleteria.getBotonCancelar().addActionListener(getControl());
 	}
 	
 	//Getts de los componentes que se modificarán y usarán
@@ -99,5 +129,15 @@ public class vistaControlador extends JFrame {
 	}
 	public panelAdministradorUsuario getPanelAdministradorUsuario() {
 		return panelAdministradorUsuario;
+	}
+	
+	public panelUsuario getPanelUsuario () {
+		return panelUsuario;
+	}
+	public panelUsuarioCompra getPanelUsuarioCompra() {
+		return panelUsuarioCompra;
+	}
+	public panelUsuarioCompraBoleteria getPanelUsuarioCompraBoleteria() {
+		return panelUsuarioCompraBoleteria;
 	}
 }

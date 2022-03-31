@@ -27,7 +27,7 @@ public class ControladorEvento implements ActionListener, MouseListener{
 	        	 interfaz.getFachada().salir();
 	        }
 	        if(ae.getSource()==(interfaz.getPanelInicial().getBotonIniciarSesion())) {
-	        	 interfaz.getFachada().iniciarSesion(interfaz.getPanelInicial(),interfaz.getPanelAdministrador());
+	        	 interfaz.getFachada().iniciarSesion(interfaz.getPanelInicial(),interfaz.getPanelAdministrador(),interfaz.getPanelUsuario());
 	        }
 	        if(ae.getSource()==(interfaz.getPanelAdministrador().getBotonCerrarSesion())) {
 	        	 interfaz.getFachada().cerrarSesion(interfaz.getPanelInicial(),interfaz.getPanelAdministrador());
@@ -46,6 +46,21 @@ public class ControladorEvento implements ActionListener, MouseListener{
 	        }
 	        if(ae.getSource()==(interfaz.getPanelAdministradorUsuario().getBotonEliminarUsuario())) {
 	        	interfaz.getFachada().eliminarUsuario();
+	        }
+	        if(ae.getSource() == (interfaz.getPanelUsuario().getBotonCerrarSesion())) {
+	        	interfaz.getFachada().cerrarSesion(interfaz.getPanelInicial(), interfaz.getPanelUsuario());
+	        }
+	        if(ae.getSource() == (interfaz.getPanelUsuario().getBotonConsultar())) {
+	        	interfaz.getFachada().comenzarCompra(interfaz.getPanelUsuario(), interfaz.getPanelUsuarioCompra());
+	        }
+	        if(ae.getSource() == (interfaz.getPanelUsuarioCompra().getBotonRegresar())) {
+	        	interfaz.getFachada().regresar(interfaz.getPanelUsuario(), interfaz.getPanelUsuarioCompra());
+	        }
+	        if (ae.getSource() == (interfaz.getPanelUsuarioCompra().getBotonBoleteria())) {
+	        	interfaz.getFachada().entrarBoleteria(interfaz.getPanelUsuarioCompra(), interfaz.getPanelUsuarioCompraBoleteria());
+	        }
+	        if (ae.getSource() == (interfaz.getPanelUsuarioCompraBoleteria().getBotonCancelar())) {
+	        	interfaz.getFachada().cancelarCompraBoleteria(interfaz.getPanelUsuarioCompra(), interfaz.getPanelUsuarioCompraBoleteria());
 	        }
 	       
 		}
