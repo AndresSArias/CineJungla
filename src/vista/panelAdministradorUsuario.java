@@ -27,7 +27,7 @@ public class panelAdministradorUsuario extends JPanel {
 	private JLabel etiquetaApellido;
 	private JLabel etiquetaEmail;
 	private JLabel etiquetaCelular;
-	private JLabel etiquetaContraseña;
+	private JLabel etiquetaMultiplex;
 	private JLabel etiquetaFechaNacimiento;
 	
 	//Componentes visuales interactivos
@@ -82,9 +82,9 @@ public class panelAdministradorUsuario extends JPanel {
 		etiquetaCelular.setBounds(514, 287, 56, 14);
 		this.add(etiquetaCelular);
 		
-		etiquetaContraseña = new JLabel("MULTIPLEX");
-		etiquetaContraseña.setBounds(631, 287, 89, 14);
-		this.add(etiquetaContraseña);
+		etiquetaMultiplex = new JLabel("MULTIPLEX");
+		etiquetaMultiplex.setBounds(631, 287, 89, 14);
+		this.add(etiquetaMultiplex);
 		
 		textoCedula = new JTextField();
 		textoCedula.setBounds(10, 324, 92, 20);
