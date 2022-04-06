@@ -62,6 +62,12 @@ public class ControladorEvento implements ActionListener, MouseListener{
 	        if (ae.getSource() == (interfaz.getPanelUsuarioCompraBoleteria().getBotonCancelar())) {
 	        	interfaz.getFachada().cancelarCompraBoleteria(interfaz.getPanelUsuarioCompra(), interfaz.getPanelUsuarioCompraBoleteria());
 	        }
+	        if (ae.getSource() == (interfaz.getPanelUsuarioCompra().getBotonCofiteria())) {
+	        	interfaz.getFachada().entrarCofiteria(interfaz.getPanelUsuarioCompra(), interfaz.getPanelUsuarioCompraCofiteria());
+	        }
+	        if(ae.getSource() == (interfaz.getPanelUsuarioCompraCofiteria().getBotonAtras())) {
+	        	interfaz.getFachada().regresar(interfaz.getPanelUsuarioCompra(), interfaz.getPanelUsuarioCompraCofiteria());
+	        }
 	       
 		}
 

@@ -9,6 +9,7 @@ import vista.panelInicial;
 import vista.panelUsuario;
 import vista.panelUsuarioCompra;
 import vista.panelUsuarioCompraBoleteria;
+import vista.panelUsuarioCompraCofiteria;
 import vista.vistaControlador;
 
 public class Fachada {
@@ -136,6 +137,12 @@ public class Fachada {
 		b.setVisible(false);
 		
 	}
+	public void regresar (panelUsuarioCompra a, panelUsuarioCompraCofiteria b) {
+		
+		a.setVisible(true);
+		b.setVisible(false);
+		
+	}
 	
 	public void entrarBoleteria (panelUsuarioCompra a , panelUsuarioCompraBoleteria b) {
 		
@@ -147,6 +154,13 @@ public class Fachada {
 	public void cancelarCompraBoleteria (panelUsuarioCompra a , panelUsuarioCompraBoleteria b) {
 		a.setVisible(true);
 		b.setVisible(false);
+	}
+	
+	public void entrarCofiteria (panelUsuarioCompra a , panelUsuarioCompraCofiteria b) {
+		
+		a.setVisible(false);
+		b.setVisible(true);
+		
 	}
 	
 }

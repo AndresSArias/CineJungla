@@ -20,6 +20,7 @@ public class vistaControlador extends JFrame {
 	private panelUsuario panelUsuario;
 	private panelUsuarioCompra panelUsuarioCompra;
 	private panelUsuarioCompraBoleteria panelUsuarioCompraBoleteria;
+	private panelUsuarioCompraCofiteria panelUsuarioCompraCofiteria;
 	
 	
 	public vistaControlador (Fachada fachada) {
@@ -66,6 +67,11 @@ public class vistaControlador extends JFrame {
 		panelUsuarioCompraBoleteria = new panelUsuarioCompraBoleteria();
 		this.getContentPane().add(panelUsuarioCompraBoleteria);
 		
+		
+		//Creaión del panel CompraCofiteria
+		panelUsuarioCompraCofiteria = new panelUsuarioCompraCofiteria();
+		this.getContentPane().add(panelUsuarioCompraCofiteria);
+		
 		//Visibilidad de los paneles
 		panelInicial.setVisible(true);
 		panelAdministrador.setVisible(false);
@@ -73,7 +79,7 @@ public class vistaControlador extends JFrame {
 		panelUsuario.setVisible(false);
 		panelUsuarioCompra.setVisible(false);
 		panelUsuarioCompraBoleteria.setVisible(false);
-		
+		panelUsuarioCompraCofiteria.setVisible(false);
 
 	}
 	
@@ -113,6 +119,14 @@ public class vistaControlador extends JFrame {
 		panelUsuarioCompraBoleteria.getBotonConsultar().addActionListener(getControl());
 		panelUsuarioCompraBoleteria.getBotonComprar().addActionListener(getControl());
 		panelUsuarioCompraBoleteria.getBotonCancelar().addActionListener(getControl());
+		//Oyentes del panel Cofiteria
+		panelUsuarioCompraCofiteria.getBotonComprarPerro().addActionListener(getControl());
+		panelUsuarioCompraCofiteria.getBotonComprarSandwich().addActionListener(getControl());
+		panelUsuarioCompraCofiteria.getBotonComprarNachos().addActionListener(getControl());
+		panelUsuarioCompraCofiteria.getBotonComprarPalomitas().addActionListener(getControl());
+		panelUsuarioCompraCofiteria.getBotonComprarChocolatina().addActionListener(getControl());
+		panelUsuarioCompraCofiteria.getBotonComprarGaseosa().addActionListener(getControl());
+		panelUsuarioCompraCofiteria.getBotonAtras().addActionListener(getControl());
 	}
 	
 	//Getts de los componentes que se modificarán y usarán
@@ -139,5 +153,8 @@ public class vistaControlador extends JFrame {
 	}
 	public panelUsuarioCompraBoleteria getPanelUsuarioCompraBoleteria() {
 		return panelUsuarioCompraBoleteria;
+	}
+	public panelUsuarioCompraCofiteria getPanelUsuarioCompraCofiteria() {
+		return panelUsuarioCompraCofiteria;
 	}
 }
