@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JTable;
+
 import vista.vistaControlador;
 
 
@@ -42,7 +44,7 @@ public class ControladorEvento implements ActionListener, MouseListener{
 	        	interfaz.getFachada().cambiarPanel(interfaz.getPanelAdministradorUsuario(), interfaz.getPanelAdministrador());
 	        }
 	        if(ae.getSource()==(interfaz.getPanelAdministradorUsuario().getBotonAgregarUsuario())) {
-	        	interfaz.getFachada().agregarUsuario();
+	        	interfaz.getFachada().agregarUsuario(interfaz.getPanelAdministradorUsuario());
 	        }
 	        if(ae.getSource()==(interfaz.getPanelAdministradorUsuario().getBotonEliminarUsuario())) {
 	        	interfaz.getFachada().eliminarUsuario();
@@ -72,8 +74,12 @@ public class ControladorEvento implements ActionListener, MouseListener{
 		}
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
+		public void mouseClicked(MouseEvent me) {
+			
+			if (me.getClickCount() == 1) {
+				JTable apuntar = (JTable)me.getSource();
+				interfaz.getFachada().interactuarTablaUsuario(interfaz.getPanelAdministradorUsuario(),apuntar.getSelectedRow(),apuntar.getSelectedColumn());
+			}
 			
 		}
 

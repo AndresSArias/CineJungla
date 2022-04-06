@@ -3,5 +3,5 @@
 	"dp_port"    : "5432", 
 	"db_user"    : "postgres",
 	"db_pssword" : "12345" ,
-	"db_nombreBD"   : "CineJunglaBD"
+	"db_nombreBD"   : "CineJungla"
 }

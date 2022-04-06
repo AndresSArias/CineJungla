@@ -1,5 +1,7 @@
 package modelo;
 
+import java.util.Vector;
+
 public class Usuario {
 	
 	//Atributos de la clase Usuario
@@ -73,5 +75,11 @@ public class Usuario {
 	public void setMultiplex (String multiplex) {
 		this.multiplex = multiplex;
 	}
+
+
+	public Object[] toArray(){
+        Object[] data = {cedula, codigo, nombre, celular, fechaContrato, cargo, salario, multiplex};
+        return data;
+    }
 	
 }

@@ -114,7 +114,7 @@ public class panelAdministradorUsuario extends JPanel {
 		this.add(cajaCargo);
 		
 		cajaMultiplex = new JComboBox();
-		cajaMultiplex.setModel(new DefaultComboBoxModel(new String[] {"Tit\u00E1n", "Unicentro", "Plaza Central", "Gran Estaci\u00F3n", "Embajador", "Am\u00E9ricas"}));
+		cajaMultiplex.setModel(new DefaultComboBoxModel(new String[] {"Titán", "Unicentro", "Plaza Central", "Gran Estación", "Embajador", "Américas"}));
 		cajaMultiplex.setBounds(631, 323, 108, 22);
 		this.add(cajaMultiplex);
 		
