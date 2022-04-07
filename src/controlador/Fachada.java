@@ -1,6 +1,5 @@
 package controlador;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
@@ -36,8 +35,8 @@ public class Fachada {
 	private Multiplex multiplex = null;
 	
 	private Salas sala = null;
-	private JCheckBox[] sillasG = null;
-	private JCheckBox[] sillasP = null;
+	private int[] sillasG = null;
+	private int[] sillasP = null;
 	
 	public Fachada (){
 		
@@ -627,6 +626,7 @@ public class Fachada {
 		cliente = null;
 		multiplex = null;
 		
+		establecerTabla(a);
 	}
 	public void regresar (panelUsuarioCompra a, panelUsuarioCompraCofiteria b) {
 		
@@ -648,6 +648,8 @@ public class Fachada {
 			b.getCajaSala().addItem("Sala " + (i+1));
 			
 		}
+		
+		b.getPanelSala().setVisible(false);
 	
 		
 	}
@@ -666,18 +668,205 @@ public class Fachada {
 	
 	public void consultarSala (panelUsuarioCompraBoleteria panel)  {
 		
+		
 		SalasDao salasDao = new SalasDao();
 		
 		sala = salasDao.getSala(multiplex.getNombre(), (panel.getCajaSala().getSelectedIndex()+1));
 		
 		establecerSala(panel);
 		
+		panel.getPanelSala().setVisible(true);
 	}
 	
 	public void establecerSala (panelUsuarioCompraBoleteria panel) {
-		/*
-		for (int i = 0; i < panel.g)
-		*/
+		
+
+		//Establece las silla generales
+		for (int i = 0; i < sala.getArregloSillasGenerales().length; i++) {
+		
+			if(sala.getArregloSillasGenerales()[i] == 1) {
+				panel.getPanelSala().getSillasG()[i].setSelected(true);
+				panel.getPanelSala().getSillasG()[i].setEnabled(false);
+			}else {
+				
+				panel.getPanelSala().getSillasG()[i].setSelected(false);
+				panel.getPanelSala().getSillasG()[i].setEnabled(true);
+				
+			}
+			
+		}
+		
+		//Establece las sillas preferenciales
+		for (int i = 0; i < sala.getArregloSillasPreferenciales().length; i++) {
+			
+			if(sala.getArregloSillasPreferenciales()[i] == 1) {
+				panel.getPanelSala().getSillasP()[i].setSelected(true);
+				panel.getPanelSala().getSillasP()[i].setEnabled(false);
+			}else {
+				
+				panel.getPanelSala().getSillasP()[i].setSelected(false);
+				panel.getPanelSala().getSillasP()[i].setEnabled(true);
+				
+			}
+			
+		}
+		
+	}
+	
+	public void comprarBoleteria (panelUsuarioCompraBoleteria panel) {
+		
+		seleccionBoletas(panel);
+		
+		if (comprobarSeleccionSillasG(panel) && comprobarSeleccionSillasP(panel)) {
+			JOptionPane.showMessageDialog(null, "No seleccionó ninguna boletas a comprar, vuelva a intentarlo");
+			establecerSala(panel);
+		}else {
+			sumarPuntos(panel);
+			SalasDao salaDao = new SalasDao();
+			Salas sala = new Salas(multiplex.getNombre(), this.sala.getNumeroDeSala(),sillasG,sillasP);
+			salaDao.actualizarSala(sala);
+			JOptionPane.showMessageDialog(null, "Boletas compradas");
+			consultarSala(panel);
+		}
+		
+	}
+	
+	public void seleccionBoletas(panelUsuarioCompraBoleteria panel) {
+		
+		sillasG = new int[40];
+		sillasP = new int[20];
+		
+		for (int i = 0; i < panel.getPanelSala().getSillasG().length; i++) {
+			
+			if (panel.getPanelSala().getSillasG()[i].isSelected() == true) {
+				
+				sillasG[i] = 1;
+				
+			}else {
+				sillasG[i] = 0;
+			}
+			
+		}
+		
+		for (int i = 0; i < panel.getPanelSala().getSillasP().length; i++) {
+			
+			if (panel.getPanelSala().getSillasP()[i].isSelected() == true) {
+				
+				sillasP[i] = 1;
+				
+			}else {
+				sillasP[i] = 0;
+			}
+			
+		}
+		
+	}
+	
+	public boolean comprobarSeleccionSillasG (panelUsuarioCompraBoleteria panel) {
+		
+		boolean verificador = true;
+		
+		for (int i =  0; i < panel.getPanelSala().getSillasG().length; i++) {
+			
+			if(sala.getArregloSillasGenerales()[i] != sillasG[i]) {
+				verificador = false;
+				break;
+			}
+			
+			
+		}
+	
+		return verificador;
+		
+	}
+	
+	public boolean comprobarSeleccionSillasP (panelUsuarioCompraBoleteria panel) {
+		
+		boolean verificador = true;
+		
+		for (int i =  0; i < panel.getPanelSala().getSillasP().length; i++) {
+			
+			if (sala.getArregloSillasPreferenciales()[i] != sillasP[i]) {
+				verificador = false;
+				break;
+			}
+		}
+		
+		return verificador;
+		
+	}
+	
+	public void sumarPuntos (panelUsuarioCompraBoleteria panel) {
+		
+		int boletas = 0;
+		
+		for (int i =  0; i < panel.getPanelSala().getSillasG().length; i++) {
+			
+			if(sala.getArregloSillasGenerales()[i] != sillasG[i]) {
+				boletas++;
+			}
+			
+		}
+		
+		for (int i =  0; i < panel.getPanelSala().getSillasP().length; i++) {
+			
+			if (sala.getArregloSillasPreferenciales()[i] != sillasP[i]) {
+				boletas++;
+			}
+		}
+		
+		ClienteDao clienteDao = new ClienteDao();
+		Cliente cliente = new Cliente(this.cliente.getNombre(), this.cliente.getCedula(),(Integer.parseInt(this.cliente.getPuntos()) + boletas * 10)+"", this.cliente.getCalificacionCineJungla(),this.cliente.getCalificacionPelicula());
+		clienteDao.actualizarCliente(cliente);
+	}
+	
+	public void comprarSnack (int caso) {
+		
+		if (caso == 1) {
+			
+			JOptionPane.showMessageDialog(null, "¡Felicidades compró 1 perro!");
+			sumarPuntos();
+			
+		}
+		if (caso == 2) {
+			
+			JOptionPane.showMessageDialog(null, "¡Felicidades compró 1 sándwich!");
+			sumarPuntos();
+			
+		}
+		if (caso == 3) {
+			
+			JOptionPane.showMessageDialog(null, "¡Felicidades compró 1 Nachos!");
+			sumarPuntos();
+			
+		}
+		if (caso == 4) {
+			
+			JOptionPane.showMessageDialog(null, "¡Felicidades compró 1 Pop Corn!");
+			sumarPuntos();
+			
+		}
+		if (caso == 5) {
+			
+			JOptionPane.showMessageDialog(null, "¡Felicidades compró 1 Chocolatina!");
+			sumarPuntos();
+			
+		}
+		if (caso == 6) {
+			
+			JOptionPane.showMessageDialog(null, "¡Felicidades compró 1 Gaseosa!");
+			sumarPuntos();
+			
+		}
+	}
+	
+	public void sumarPuntos () {
+		
+		ClienteDao clienteDao = new ClienteDao();
+		this.cliente = clienteDao.getCliente(this.cliente.getCedula());
+		Cliente cliente = new Cliente(this.cliente.getNombre(), this.cliente.getCedula(),(Integer.parseInt(this.cliente.getPuntos()) + 5)+"", this.cliente.getCalificacionCineJungla(),this.cliente.getCalificacionPelicula());
+		clienteDao.actualizarCliente(cliente);
+		
 	}
 	
 }

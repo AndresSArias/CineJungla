@@ -1,5 +1,6 @@
 package accesoDao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -44,6 +45,35 @@ public class SalasDao {
 
 		
 		return sala;
+	}
+	
+	public void actualizarSala (Salas sala) {
+		
+		conector = conexionBD.getInstancia();
+		
+		try {
+        	
+			conector.conectarConexion();
+            
+            
+            String sql = "UPDATE salas SET arreglosillasgeneral = '"+sala.getStringSillasG()+"', arreglosillaspreferencial = '"+sala.getStringSillasP()+""+
+            		"' WHERE multiplex = '"+sala.getMultiplex()+"' AND numerodesala = "+sala.getNumeroDeSala()+" ;";
+           
+            PreparedStatement declaracion = conector.getConector().prepareStatement(sql);
+            
+            int filaActualizada = declaracion.executeUpdate();
+            
+            if (filaActualizada > 0) {
+                JOptionPane.showMessageDialog(null, "¡La sala fue actualizada exitosamente!");
+               }
+         
+            conector.detenerConexion();
+            
+        } 
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Código : " + ex.getErrorCode() 
+                                        + "\nError :" + ex.getMessage());      	
+        }
 	}
 	
 }

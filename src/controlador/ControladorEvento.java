@@ -79,8 +79,31 @@ public class ControladorEvento implements ActionListener, MouseListener{
 	        }
 	        if(ae.getSource() == (interfaz.getPanelUsuarioCompraBoleteria().getBotonConsultar())) {
 	        	
-					interfaz.getFachada().consultarSala(interfaz.getPanelUsuarioCompraBoleteria());
+	        	interfaz.getFachada().consultarSala(interfaz.getPanelUsuarioCompraBoleteria());
 				
+	        }
+	        if(ae.getSource() == (interfaz.getPanelUsuarioCompraBoleteria().getBotonComprar())) {
+	        	
+	        	interfaz.getFachada().comprarBoleteria(interfaz.getPanelUsuarioCompraBoleteria());
+				
+	        }
+	        if(ae.getSource() == (interfaz.getPanelUsuarioCompraCofiteria().getBotonComprarPerro())) {
+	        	interfaz.getFachada().comprarSnack(1);
+	        }
+	        if(ae.getSource() == (interfaz.getPanelUsuarioCompraCofiteria().getBotonComprarSandwich())) {
+	        	interfaz.getFachada().comprarSnack(2);
+	        }
+	        if(ae.getSource() == (interfaz.getPanelUsuarioCompraCofiteria().getBotonComprarNachos())) {
+	        	interfaz.getFachada().comprarSnack(3);
+	        }
+	        if(ae.getSource() == (interfaz.getPanelUsuarioCompraCofiteria().getBotonComprarPalomitas())) {
+	        	interfaz.getFachada().comprarSnack(4);
+	        }
+	        if(ae.getSource() == (interfaz.getPanelUsuarioCompraCofiteria().getBotonComprarChocolatina())) {
+	        	interfaz.getFachada().comprarSnack(5);
+	        }
+	        if(ae.getSource() == (interfaz.getPanelUsuarioCompraCofiteria().getBotonComprarGaseosa())) {
+	        	interfaz.getFachada().comprarSnack(6);
 	        }
 		}
 

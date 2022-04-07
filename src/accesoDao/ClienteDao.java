@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import modelo.Cliente;
+import modelo.Salas;
 import utilidad.conexionBD;
 
 public class ClienteDao {
@@ -203,6 +204,34 @@ public class ClienteDao {
 			
 		return verificador;
 		
+	}
+	
+	public void actualizarCliente (Cliente cliente) {
+		
+		conector = conexionBD.getInstancia();
+		
+		try {
+        	
+			conector.conectarConexion();
+            
+            
+            String sql = "UPDATE cliente SET nombre = '"+cliente.getNombre()+"', puntos = "+cliente.getPuntos()+" , calificacioncinejungla = "+cliente.getCalificacionCineJungla()+", calificacionpelicula = "+cliente.getCalificacionPelicula()+"  WHERE cedula = "+cliente.getCedula()+" ;";
+           
+            PreparedStatement declaracion = conector.getConector().prepareStatement(sql);
+            
+            int filaActualizada = declaracion.executeUpdate();
+            
+            if (filaActualizada > 0) {
+                JOptionPane.showMessageDialog(null, "¡El cliente fue actualizado exitosamente!");
+               }
+         
+            conector.detenerConexion();
+            
+        } 
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Código : " + ex.getErrorCode() 
+                                        + "\nError :" + ex.getMessage());      	
+        }
 	}
 	
 }
