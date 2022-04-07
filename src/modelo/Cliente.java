@@ -40,7 +40,7 @@ public class Cliente {
 		this.puntos = puntos;
 	}
 	
-	public String CalificacionCineJungla() {
+	public String getCalificacionCineJungla() {
 		return calificacion_cine_jungla;
 	}
 	public void setCalificacionCineJungla(String calificacion_cine_jungla) {
@@ -53,5 +53,11 @@ public class Cliente {
 	public void setCalificacionPelicula(String calificacion_pelicula) {
 		this.calificacion_pelicula = calificacion_pelicula;
 	}
+	
+	public Object[] toArray(){
+        Object[] data = {nombre, cedula, puntos};
+        return data;
+    }
+	
 }
   

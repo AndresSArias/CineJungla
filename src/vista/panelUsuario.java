@@ -41,7 +41,7 @@ public class panelUsuario extends JPanel {
 			
 		etiquetaBienvenida = new JLabel("\u00A1Bienvenido CARGO USUARIO!");
 		etiquetaBienvenida.setFont(new Font("Arial Black", Font.BOLD, 16));
-		etiquetaBienvenida.setBounds(314, 11, 273, 31);
+		etiquetaBienvenida.setBounds(314, 11, 350, 31);
 		this.add(etiquetaBienvenida);
 		
 		scrollTablaCliente = new JScrollPane();

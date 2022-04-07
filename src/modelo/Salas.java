@@ -1,5 +1,7 @@
 package modelo;
 
+import java.sql.Array;
+
 public class Salas {
 	
 	private String multiplex;
@@ -9,12 +11,21 @@ public class Salas {
 	
 	//Constructor
 	
-	public Salas (String multiplex, String numero_de_sala, int[] arreglo_sillas_generales, int[] arreglo_sillas_preferenciales) {
+	public Salas (String multiplex, String numero_de_sala, Array arreglo_sillas_generales, Array arreglo_sillas_preferenciales) {
 		
 		this.multiplex = multiplex;
 		this.numero_de_sala = numero_de_sala;
-		this.arreglo_sillas_generales = arreglo_sillas_generales;
-		this.arreglo_sillas_preferenciales = arreglo_sillas_preferenciales;
+		
+		String[] siilasG = arreglo_sillas_generales.toString().replaceAll("\\{", "").replaceAll("}", "").split(",");
+		for(int i = 0; i < 40; i++){
+			this.arreglo_sillas_generales[i] = Integer.parseInt(siilasG[i]);
+		}
+		
+		String[] siilasP = arreglo_sillas_preferenciales.toString().replaceAll("\\{", "").replaceAll("}", "").split(",");
+		for(int i = 0; i < 20; i++){
+			this.arreglo_sillas_preferenciales[i] = Integer.parseInt(siilasP[i]);
+		}
+		
 	}
 	
 	public String getMultiplex() {

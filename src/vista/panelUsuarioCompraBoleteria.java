@@ -95,4 +95,5 @@ public class panelUsuarioCompraBoleteria extends JPanel{
 		return botonCancelar;
 	}
 
+	
 }

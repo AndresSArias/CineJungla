@@ -51,6 +51,13 @@ public class panelSala extends JPanel {
 	private JCheckBox sillaG39;
 	private JCheckBox sillaG40;
 	
+	public JCheckBox[] sillasG;
+	/*
+	public JCheckBox[] sillasG = {sillaG1, sillaG2, sillaG3,sillaG4, sillaG5, sillaG6, sillaG7, sillaG8, sillaG9, sillaG10,
+			sillaG11, sillaG12, sillaG13,sillaG14, sillaG15, sillaG16, sillaG17, sillaG18, sillaG19, sillaG20,
+			sillaG21, sillaG22, sillaG23,sillaG24, sillaG25, sillaG26, sillaG27, sillaG28, sillaG29, sillaG30,
+			sillaG31, sillaG32, sillaG33,sillaG34, sillaG35, sillaG36, sillaG37, sillaG38, sillaG39, sillaG40};
+	*/
 	private JCheckBox sillaP1;
 	private JCheckBox sillaP2;
 	private JCheckBox sillaP3;
@@ -72,6 +79,9 @@ public class panelSala extends JPanel {
 	private JCheckBox sillaP19;
 	private JCheckBox sillaP20;
 	
+	public JCheckBox[] sillasP;
+	
+
 	public panelSala () {
 		
 		this.setBounds(103, 96, 570, 288);
@@ -317,9 +327,16 @@ public class panelSala extends JPanel {
 		sillaP20.setBounds(506, 36, 21, 12);;
 		this.add(sillaP20);
 		
+		sillasG = new JCheckBox[] {sillaG1, sillaG2, sillaG3,sillaG4, sillaG5, sillaG6, sillaG7, sillaG8, sillaG9, sillaG10,
+				sillaG11, sillaG12, sillaG13,sillaG14, sillaG15, sillaG16, sillaG17, sillaG18, sillaG19, sillaG20,
+				sillaG21, sillaG22, sillaG23,sillaG24, sillaG25, sillaG26, sillaG27, sillaG28, sillaG29, sillaG30,
+				sillaG31, sillaG32, sillaG33,sillaG34, sillaG35, sillaG36, sillaG37, sillaG38, sillaG39, sillaG40};
+		
+	
+		sillasP = new JCheckBox[] {	sillaP1, sillaP2, sillaP3,sillaP4, sillaP5, sillaP6, sillaP7, sillaP8, sillaP9, sillaP10,
+				sillaP11, sillaP12, sillaP13,sillaP14, sillaP15, sillaP16, sillaP17, sillaP18, sillaP19, sillaP20};
 		
 	}
-	
 	public void paint(Graphics g) {
 		
 		g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
@@ -328,4 +345,13 @@ public class panelSala extends JPanel {
 		super.paint(g);
 		
 	}
+	
+	public JCheckBox[] getSillasG() {
+		return sillasG;
+	}
+
+	public JCheckBox[] getSillasP() {
+		return sillasP;
+	}
+
 }

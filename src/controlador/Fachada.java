@@ -1,11 +1,19 @@
 package controlador;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+import accesoDao.ClienteDao;
+import accesoDao.MultiplexDao;
+import accesoDao.SalasDao;
 import accesoDao.UsuarioDao;
+import modelo.Cliente;
+import modelo.Multiplex;
+import modelo.Salas;
 import modelo.Usuario;
 import utilidad.conexionBD;
 import vista.panelAdministrador;
@@ -23,7 +31,13 @@ public class Fachada {
 	private vistaControlador interfaz;
 	private Usuario usuario = null;
 	private ArrayList<Usuario> usuarios = null;
+	private Cliente cliente = null;
+	private ArrayList<Cliente> clientes = null;
+	private Multiplex multiplex = null;
 	
+	private Salas sala = null;
+	private JCheckBox[] sillasG = null;
+	private JCheckBox[] sillasP = null;
 	
 	public Fachada (){
 		
@@ -68,17 +82,180 @@ public class Fachada {
 			
 			} else {
 				
+				UsuarioDao usuarioDao = new UsuarioDao();
+		        
+				if (usuarioDao.validarUsuario(a.getTextoCedula().getText()) && usuarioDao.validarCodigo(a.getTextoCodigo().getText()) ) {
+					
+				JOptionPane.showMessageDialog(null, "¡Inicio de sesión exitosamente!");
+					
+				usuario = usuarioDao.getUsuario(a.getTextoCedula().getText());
+					
 				a.setVisible(false);
 				c.setVisible(true);
-				
-				/*
-				JOptionPane.showMessageDialog(null,"¡En construcción!","Vuelva pronto...",JOptionPane.ERROR_MESSAGE);
+				c.getEtiquetaBienvenida().setText(("¡Bienvenido "+usuario.getCargo()+" "+usuario.getNombre()+"!"));
+				establecerTabla(c);
+				actualizarPanelUsuario(c,0);
+
+					
+				}else {
+					
+				// SI NO SE ENCUENTRA REGISTRO
+				JOptionPane.showMessageDialog(null, "Cédula incorrecto o código invalido!");
 				a.getTextoCedula().setText(null);
 				a.getTextoCodigo().setText(null);
-				*/
+					
+				}
+
 			}
 		
 		}
+	}
+	
+	public void establecerTabla (panelUsuario panel) {
+		
+		ClienteDao clienteDao = new ClienteDao();
+		clientes = clienteDao.getClientes();
+		int contador = 0;
+        
+		
+		String[] nombreColumna = {"NOMBRE", "CÉDULA", "PUNTOS"};
+		
+        panel.getTablaCliente().removeAll();
+        DefaultTableModel modeloTabla = new DefaultTableModel() {
+        	public boolean isCellEditable (int filas, int columnas) {
+        		if (columnas == 3) {
+        			return true;
+        		}else {
+        			return false;
+        		}
+        	}
+        };
+       
+        modeloTabla.setColumnIdentifiers(nombreColumna); 
+        panel.getTablaCliente().setModel(modeloTabla);
+        
+        
+        for(int i=0; i<clientes.size(); i++){
+        	
+            modeloTabla.addRow(clientes.get(i).toArray());
+            contador++;
+		
+	}
+        
+        panel.getTablaCliente().getColumnModel().getColumn(0).setPreferredWidth(100);
+        panel.getTablaCliente().getColumnModel().getColumn(1).setPreferredWidth(100);
+        panel.getTablaCliente().getColumnModel().getColumn(2).setPreferredWidth(100);
+        panel.getTablaCliente().getColumnModel().getColumn(0).setResizable(false);
+        panel.getTablaCliente().getColumnModel().getColumn(1).setResizable(false);
+        panel.getTablaCliente().getColumnModel().getColumn(2).setResizable(false);
+     
+        panel.getTablaCliente().getTableHeader().setReorderingAllowed(false) ;
+        
+        
+	}
+	
+	public void interactuarTablaCliente (panelUsuario panel,int fila, int columna) {
+		
+		ClienteDao clienteDao = new ClienteDao();
+		String cedula = (String) panel.getTablaCliente().getValueAt(fila, 1);
+		cliente = clienteDao.getCliente(cedula);
+		actualizarPanelUsuario(panel,1);
+		
+	}
+	
+	public void actualizarPanelUsuario (panelUsuario panel, int caso) {
+		
+		if (caso == 0) {
+			
+			panel.getTextoCedula().setText(null);
+			panel.getTextoNombre().setText(null);
+			panel.getCajaMultiplex().setSelectedIndex(0);
+			
+		}
+		
+		if (caso == 1) {
+			
+			panel.getTextoCedula().setText(cliente.getCedula());
+			panel.getTextoNombre().setText(cliente.getNombre());
+			
+			
+		}
+		
+	}
+	
+	public void agregarCliente(panelUsuario panel) {
+		
+		// VALIDACION DE LOS DATOS SI COINCIDEN O NO
+		int bandera = 0;
+		// SI LOS DATOS SON NULOS
+		if (panel.getTextoCedula().getText().length() == 0  || panel.getTextoNombre().getText().length() == 0 ) {
+			
+			JOptionPane.showMessageDialog(null, "Los datos están incompletos, vuelva a intentar.");		
+			actualizarPanelUsuario(panel,0);
+			bandera++;
+			
+		}
+				
+		// SI LA ENTRADA DE TEXTO ES VALIDA
+		if (bandera == 0) {
+						
+			ClienteDao clienteDao = new ClienteDao();
+			Cliente auxCliente = new Cliente (panel.getTextoNombre().getText(), panel.getTextoCedula().getText(),"0", "0","0");
+
+			if (clienteDao.validarCedula(panel.getTextoCedula().getText())) {
+						
+				JOptionPane.showMessageDialog(null, "El Cliente con esa Cédula ya está registrado, vuelva a intentar.");
+				actualizarPanelUsuario(panel,0);
+					
+			}else{
+				
+				clienteDao.agregarCliente(auxCliente);
+				establecerTabla(panel);
+				actualizarPanelUsuario(panel,0);
+								
+								
+			}
+						
+		}
+		
+	}
+	
+	public void eliminarCliente(panelUsuario panel) {
+		
+		// VALIDACION DE LOS DATOS SI COINCIDEN O NO
+		int bandera = 0;
+		// SI LOS DATOS SON NULOS
+		if (panel.getTextoCedula().getText().length() == 0  || panel.getTextoNombre().getText().length() == 0 ) {
+			
+			JOptionPane.showMessageDialog(null, "Los datos están incompletos, vuelva a intentar.");		
+			actualizarPanelUsuario(panel,0);
+			bandera++;
+			
+		}
+				
+		// SI LA ENTRADA DE TEXTO ES VALIDA
+		if (bandera == 0) {
+		
+			ClienteDao clienteDao = new ClienteDao();
+			Cliente auxCliente = new Cliente (panel.getTextoNombre().getText(), panel.getTextoCedula().getText(),"0", "0","0");
+			
+			if (clienteDao.validarCedula(panel.getTextoCedula().getText())) {
+				
+				
+				clienteDao.eliminarCliente(auxCliente.getCedula());
+				establecerTabla(panel);
+				actualizarPanelUsuario(panel,0);
+					
+			}else{
+				
+				JOptionPane.showMessageDialog(null, "El cliente que quiere eliminar no existe, vuelva a intentar.");
+				actualizarPanelUsuario(panel,0);
+								
+								
+			}
+				
+		}
+		
 	}
 	
 	public void cerrarSesion (panelInicial a, panelAdministrador b) {
@@ -334,9 +511,6 @@ public class Fachada {
 		if (bandera == 0) {
 						
 			UsuarioDao usuarioDao = new UsuarioDao();
-			/*
-			usuario = usuarioDao.getUsuario(panel.getTextoCedula().getText());
-			*/
 			Usuario auxUsuario = new Usuario (panel.getTextoCedula().getText(), null,panel.getTextoNombre().getText(), panel.getTextoCelular().getText(),panel.getTextoFechaContrato().getText(), (String) panel.getCajaCargo().getSelectedItem(),null,(String) panel.getCajaMultiplex().getSelectedItem());
 
 			if (usuarioDao.validarUsuario(panel.getTextoCedula().getText())) {
@@ -358,9 +532,41 @@ public class Fachada {
 	}
 
 	
-	public void eliminarUsuario() {
+	public void eliminarUsuario(panelAdministradorUsuario panel) {
 		
-		JOptionPane.showMessageDialog(null,"¡En construcción!","Vuelva pronto...",JOptionPane.ERROR_MESSAGE);
+		// VALIDACION DE LOS DATOS SI COINCIDEN O NO
+		int bandera = 0;
+		// SI LOS DATOS SON NULOS
+		if (panel.getTextoCedula().getText().length() == 0  || panel.getTextoNombre().getText().length() == 0 ||panel.getTextoFechaContrato().getText().length() == 0 || panel.getTextoCelular().getText().length() == 0) {
+			
+			JOptionPane.showMessageDialog(null, "Los datos están incompletos, vuelva a intentar.");		
+			actualizarPanelAdministradorUsuario(panel,0);
+			bandera++;
+			
+		}
+				
+		// SI LA ENTRADA DE TEXTO ES VALIDA
+		if (bandera == 0) {
+					
+			UsuarioDao usuarioDao = new UsuarioDao();
+			Usuario auxUsuario = new Usuario (panel.getTextoCedula().getText(), null,panel.getTextoNombre().getText(), panel.getTextoCelular().getText(),panel.getTextoFechaContrato().getText(), (String) panel.getCajaCargo().getSelectedItem(),null,(String) panel.getCajaMultiplex().getSelectedItem());
+				
+			if (usuarioDao.validarUsuario(panel.getTextoCedula().getText())) {
+				
+				
+				usuarioDao.eliminarUsuario(auxUsuario.getCedula());
+				establecerTabla(panel);
+				actualizarPanelAdministradorUsuario(panel,0);
+					
+			}else{
+				
+				JOptionPane.showMessageDialog(null, "El registro que quiere eliminar no existe, vuelva a intentar.");
+				actualizarPanelAdministradorUsuario(panel,0);
+								
+								
+			}
+				
+		}
 		
 	}
 
@@ -372,14 +578,54 @@ public class Fachada {
 	
 	public void comenzarCompra(panelUsuario a, panelUsuarioCompra b) {
 		
-		a.setVisible(false);
-		b.setVisible(true);
+		// VALIDACION DE LOS DATOS SI COINCIDEN O NO
+		int bandera = 0;
+		// SI LOS DATOS SON NULOS
+		if (a.getTextoCedula().getText().length() == 0 || a.getTextoNombre().getText().length() == 0) {
+
+			JOptionPane.showMessageDialog(null, "Cliente no seleccionado");
+			actualizarPanelUsuario(a,0);
+			bandera++;
+		}
 		
+		// SI LA ENTRADA DE TEXTO ES CORRECTA
+		if (bandera == 0) {
+			
+			ClienteDao clienteDao = new ClienteDao();
+			MultiplexDao multiplexDao = new MultiplexDao();
+							
+			if (clienteDao.validarCliente(a.getTextoCedula().getText(), a.getTextoNombre().getText())) {
+				
+				a.setVisible(false);
+				b.setVisible(true);
+				
+				cliente = clienteDao.getCliente(a.getTextoCedula().getText());
+				multiplex = multiplexDao.getMultiplex((String)a.getCajaMultiplex().getSelectedItem());
+				
+				b.getEtiquetaTitulo().setText("¡BIENVENIDO AL MUTIPLEX DE "+multiplex.getNombre()+"!");
+				b.getEtiquetaParrafo().setText("Por favor seleccione la secci\u00F3n que desea el/la cliente/a "+cliente.getNombre()+" a comprar, boleteria y/o cofeteria. \u00A1No olvides calificarnos!");
+		
+					
+			}else {
+				
+				JOptionPane.showMessageDialog(null, "Cliente no registrado, vuelva a intentarlo");
+				
+				actualizarPanelUsuario(a,0);
+				
+			}
+		
+		
+		}
 	}
 	public void regresar (panelUsuario a, panelUsuarioCompra b) {
 		
 		a.setVisible(true);
 		b.setVisible(false);
+		
+		actualizarPanelUsuario(a,0);
+		
+		cliente = null;
+		multiplex = null;
 		
 	}
 	public void regresar (panelUsuarioCompra a, panelUsuarioCompraCofiteria b) {
@@ -394,6 +640,16 @@ public class Fachada {
 		a.setVisible(false);
 		b.setVisible(true);
 		
+		b.getCajaSala().removeAllItems();
+		
+		
+		for(int i = 0; i < Integer.parseInt(multiplex.getNumerodeSalas());i++) {
+				
+			b.getCajaSala().addItem("Sala " + (i+1));
+			
+		}
+	
+		
 	}
 	
 	public void cancelarCompraBoleteria (panelUsuarioCompra a , panelUsuarioCompraBoleteria b) {
@@ -406,6 +662,22 @@ public class Fachada {
 		a.setVisible(false);
 		b.setVisible(true);
 		
+	}
+	
+	public void consultarSala (panelUsuarioCompraBoleteria panel)  {
+		
+		SalasDao salasDao = new SalasDao();
+		
+		sala = salasDao.getSala(multiplex.getNombre(), (panel.getCajaSala().getSelectedIndex()+1));
+		
+		establecerSala(panel);
+		
+	}
+	
+	public void establecerSala (panelUsuarioCompraBoleteria panel) {
+		/*
+		for (int i = 0; i < panel.g)
+		*/
 	}
 	
 }

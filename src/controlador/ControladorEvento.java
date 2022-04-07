@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 
 import javax.swing.JTable;
 
@@ -47,10 +48,16 @@ public class ControladorEvento implements ActionListener, MouseListener{
 	        	interfaz.getFachada().agregarUsuario(interfaz.getPanelAdministradorUsuario());
 	        }
 	        if(ae.getSource()==(interfaz.getPanelAdministradorUsuario().getBotonEliminarUsuario())) {
-	        	interfaz.getFachada().eliminarUsuario();
+	        	interfaz.getFachada().eliminarUsuario(interfaz.getPanelAdministradorUsuario());
 	        }
 	        if(ae.getSource() == (interfaz.getPanelUsuario().getBotonCerrarSesion())) {
 	        	interfaz.getFachada().cerrarSesion(interfaz.getPanelInicial(), interfaz.getPanelUsuario());
+	        }
+	        if(ae.getSource()==(interfaz.getPanelUsuario().getBotonAgregarCliente())) {
+	        	interfaz.getFachada().agregarCliente(interfaz.getPanelUsuario());
+	        }
+	        if(ae.getSource()==(interfaz.getPanelUsuario().getBotonEliminarCliente())) {
+	        	interfaz.getFachada().eliminarCliente(interfaz.getPanelUsuario());
 	        }
 	        if(ae.getSource() == (interfaz.getPanelUsuario().getBotonConsultar())) {
 	        	interfaz.getFachada().comenzarCompra(interfaz.getPanelUsuario(), interfaz.getPanelUsuarioCompra());
@@ -70,15 +77,27 @@ public class ControladorEvento implements ActionListener, MouseListener{
 	        if(ae.getSource() == (interfaz.getPanelUsuarioCompraCofiteria().getBotonAtras())) {
 	        	interfaz.getFachada().regresar(interfaz.getPanelUsuarioCompra(), interfaz.getPanelUsuarioCompraCofiteria());
 	        }
-	       
+	        if(ae.getSource() == (interfaz.getPanelUsuarioCompraBoleteria().getBotonConsultar())) {
+	        	
+					interfaz.getFachada().consultarSala(interfaz.getPanelUsuarioCompraBoleteria());
+				
+	        }
 		}
 
 		@Override
 		public void mouseClicked(MouseEvent me) {
 			
 			if (me.getClickCount() == 1) {
-				JTable apuntar = (JTable)me.getSource();
-				interfaz.getFachada().interactuarTablaUsuario(interfaz.getPanelAdministradorUsuario(),apuntar.getSelectedRow(),apuntar.getSelectedColumn());
+				if (me.getSource() == (interfaz.getPanelAdministradorUsuario().getTablaUsuario())) {
+					
+					JTable apuntar = (JTable)me.getSource();
+					interfaz.getFachada().interactuarTablaUsuario(interfaz.getPanelAdministradorUsuario(),apuntar.getSelectedRow(),apuntar.getSelectedColumn());
+					
+				}
+				if (me.getSource() == (interfaz.getPanelUsuario().getTablaCliente())) {
+					JTable apuntar = (JTable)me.getSource();
+					interfaz.getFachada().interactuarTablaCliente(interfaz.getPanelUsuario(),apuntar.getSelectedRow(),apuntar.getSelectedColumn());
+				}
 			}
 			
 		}

@@ -2,43 +2,37 @@ package accesoDao;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-
-import modelo.Usuario;
+import modelo.Cliente;
 import utilidad.conexionBD;
 
-
-import java.util.ArrayList;
-
-
-public class UsuarioDao {
+public class ClienteDao {
 	
 	private conexionBD conector;
 	
-	public ArrayList<Usuario> getUsuarios() {
+	public ArrayList<Cliente> getClientes() {
 		
 		conector = conexionBD.getInstancia();
 		
-        ArrayList<Usuario> usuarios = new ArrayList();
+        ArrayList<Cliente> clientes = new ArrayList();
         try {
             
         	conector.conectarConexion();
             
-            String sql          = "SELECT * FROM usuario;";
+            String sql          = "SELECT * FROM cliente;";
             Statement declaracion = conector.getConector().createStatement();
             ResultSet resultado    = declaracion.executeQuery(sql);
             
             while (resultado.next()) {
-                Usuario usuario = new Usuario(resultado.getString(1), resultado.getString(2),resultado.getString(3), resultado.getString(4),resultado.getString(5), resultado.getString(6),resultado.getString(7),resultado.getString(8));
-                usuarios.add( usuario );
+                Cliente cliente = new Cliente(resultado.getString(1), resultado.getString(2),resultado.getString(3), resultado.getString(4),resultado.getString(5));
+                clientes.add( cliente );
             }
             
             conector.detenerConexion();
@@ -49,27 +43,27 @@ public class UsuarioDao {
                                         + "\nError :" + ex.getMessage());
         }
         
-        return usuarios;
+        return clientes;
         
 	}
 	
-	public Usuario getUsuario (String cedula) {
+	public Cliente getCliente (String cedula) {
 		
 		conector = conexionBD.getInstancia();
-		Usuario usuario = null;
+		Cliente cliente = null;
 		
         try {
         	
         	conector.conectarConexion();
             
-            String sql = "SELECT * FROM usuario WHERE cedula = '"+cedula+"';";
+            String sql = "SELECT * FROM cliente WHERE cedula = '"+cedula+"';";
             
             Statement declaracion = conector.getConector().createStatement();
             ResultSet resultado    = declaracion.executeQuery(sql);
             
             while (resultado.next()) {
             	
-                usuario = new Usuario(resultado.getString(1), resultado.getString(2),resultado.getString(3), resultado.getString(4),resultado.getString(5), resultado.getString(6),resultado.getString(7),resultado.getString(8));
+                cliente = new Cliente(resultado.getString(1), resultado.getString(2),resultado.getString(3), resultado.getString(4),resultado.getString(5));
                 
             }
             
@@ -82,11 +76,11 @@ public class UsuarioDao {
         }
 
         
-        return usuario;
+        return cliente;
         
 	}
 	
-	public boolean validarUsuario (String cedula) {
+	public boolean validarCedula (String cedula) {
 		
 		conector = conexionBD.getInstancia();
 		boolean verificador = false;
@@ -95,7 +89,7 @@ public class UsuarioDao {
 			
 			conector.conectarConexion();
             
-            String sql = "SELECT usuario.cedula FROM usuario;";
+            String sql = "SELECT cliente.cedula FROM cliente;";
             Statement declaracion = conector.getConector().createStatement();
             ResultSet resultado    = declaracion.executeQuery(sql);
             
@@ -121,49 +115,16 @@ public class UsuarioDao {
 			
 		return verificador;
 	}
-	public boolean validarCodigo (String codigo) {
-		
-		conector = conexionBD.getInstancia();
-		boolean verificador = false;
-		
-		try {
-			
-			conector.conectarConexion();
-            
-            String sql = "SELECT usuario.codigo FROM usuario;";
-            Statement declaracion = conector.getConector().createStatement();
-            ResultSet resultado    = declaracion.executeQuery(sql);
-            
-            
-            while (resultado.next()) {
-            	
-                if ((resultado.getInt(1)+"").equals(codigo)) {
-                	verificador = true;
-                	break;
-                }
-            }
-            
-            conector.detenerConexion();
-            
-        } 
-        catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Código : " + ex.getErrorCode() 
-                                        + "\nError :" + ex.getMessage());
-        }
-			
-		return verificador;
-	}
 	
-	public void agregarUsuario (Usuario usuario) {
+	public void agregarCliente (Cliente cliente) {
 		
 		conector = conexionBD.getInstancia();
 		
 		try {
 			
 			conector.conectarConexion();
-			//INSERT INTO Usuario(cedula,nombre,celular,fechainiciocontrato,cargo,salario,multiplex) VALUES ('1000520869','Faider Trujillo','3012025465','2021-03-26','Director',3000000,'Titán');
-			String sql = "INSERT INTO Usuario(cedula,nombre,celular,fechainiciocontrato,cargo,salario,multiplex) VALUES ('"
-			+usuario.getCedula()+"','"+usuario.getNombre()+"','"+usuario.getCelular()+"','"+usuario.getFechaContrato()+"','"+usuario.getCargo()+"','"+1500000+"','"+usuario.getMultiplex()+"');";
+
+			String sql = "INSERT INTO Cliente VALUES ('"+cliente.getNombre()+"','"+cliente.getCedula()+"','"+cliente.getPuntos()+"','"+cliente.getCalificacionCineJungla()+"','"+cliente.getCalificacionPelicula()+"');";
 			
 			 PreparedStatement declaracion = conector.getConector().prepareStatement(sql);
 	         int filaInsertada = declaracion.executeUpdate();
@@ -183,7 +144,7 @@ public class UsuarioDao {
 		
 	}
 	
-	public void eliminarUsuario (String cedula) {
+	public void eliminarCliente (String cedula) {
 		
 		conector = conexionBD.getInstancia();
 		
@@ -191,7 +152,7 @@ public class UsuarioDao {
         	
 			conector.conectarConexion();
             
-            String sql = "DELETE FROM usuario WHERE cedula = '"+cedula+"';";
+            String sql = "DELETE FROM cliente WHERE cedula = '"+cedula+"';";
             PreparedStatement declaracion = conector.getConector().prepareStatement(sql);
             int filaEliminada = declaracion.executeUpdate();
             if (filaEliminada > 0) {
@@ -207,5 +168,41 @@ public class UsuarioDao {
 		
 	}
 	
+	public boolean validarCliente (String cedula, String nombre) {
+		
+		conector = conexionBD.getInstancia();
+		boolean verificador = false;
+		
+		try {
+			
+			conector.conectarConexion();
+            
+            String sql = "SELECT cliente.nombre, cliente.cedula FROM cliente;";
+            Statement declaracion = conector.getConector().createStatement();
+            ResultSet resultado    = declaracion.executeQuery(sql);
+            
+            
+            while (resultado.next()) {
+            	            	
+            	BigDecimal decimal = resultado.getBigDecimal(2);
+            	BigInteger mob = (decimal == null ? null : decimal.toBigInteger());
+            	
+                if (resultado.getString(1).equals(nombre)&&(mob+"").equals(cedula)) {
+                	verificador = true;
+                	break;
+                }
+            }
+            
+            conector.detenerConexion();
+            
+        } 
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Código : " + ex.getErrorCode() 
+                                        + "\nError :" + ex.getMessage());
+        }
+			
+		return verificador;
+		
+	}
 	
 }

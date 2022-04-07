@@ -111,6 +111,7 @@ public class vistaControlador extends JFrame {
 		panelUsuario.getBotonConsultar().addActionListener(getControl());
 		panelUsuario.getBotonAgregarCliente().addActionListener(getControl());
 		panelUsuario.getBotonEliminarCliente().addActionListener(getControl());
+		panelUsuario.getTablaCliente().addMouseListener(getControl());
 		//Oyentes del panel Usuario Compra
 		panelUsuarioCompra.getBotonRegresar().addActionListener(getControl());
 		panelUsuarioCompra.getBotonBoleteria().addActionListener(getControl());
